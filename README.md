@@ -56,6 +56,17 @@ Scikit-learn
 Pandas 
 OpenCV 
 
+**Configure Environment Variables**
+
+SECRET_KEY=your_secret_key
+DATABASE_URL=your_database_url
+API_KEY=your_api_key
+
+**Set Up the Database**
+
+python manage.py migrate 
+flask db upgrade    
+
 # Features
 Proactive Detection: Detects leaks in real-time.
 Privacy-First Approach: Uses secure computation techniques like hashing and homomorphic encryption.
@@ -65,17 +76,12 @@ User-Friendly Interface: Includes a web dashboard for real-time monitoring.
 # Technologies Used
 Programming Languages: Python
 Frameworks: Flask (for the web dashboard)
-Libraries: BeautifulSoup, Selenium, Scikit-learn, TensorFlow
+Libraries:  Scikit-learn, TensorFlow
 Database: PostgreSQL (for secure data storage)
 Encryption: AES-256, bcrypt, SHA-256
-Tools: Git, Docker, GitHub Actions (CI/CD)
+Tools: Git, GitHub Actions (CI/CD)
 
 
-# Security Considerations
-Data Encryption: All sensitive data is encrypted using AES-256 and bcrypt hashing.
-Secure Comparisons: Data is compared using SHA-256 hashes to ensure privacy.
-Access Control: Role-based access control (RBAC) is implemented for the web dashboard.
-Regular Audits: The system undergoes regular security audits to identify and fix vulnerabilities.
 
 # Usage guide
 # File & Directory Structure
