@@ -1,85 +1,118 @@
-# Data-Breach-Detection
+# Data Breach Detection
 
-# Introduction
-This project presents the Cybersecurity Project: Data Leak and Breach Detection System, a cutting-edge solution designed to help companies protect their most valuable asset—their data—from theft, sale, or misuse by hackers and data brokers. The system provides proactive protection by detecting data leaks in real-time, ensuring organizations can respond to threats before significant damage occurs.
+## Introduction
 
-# Table of Contents
-Problem Statement
-Solution
-Features
-Competitive Analysis
-InstallationFile & Directory Structure
-Usage guide
-File & Directory Structure
-Technology used
-Configuration & Environment Variables
-License
-Contact
+Data Breach Detection is a Flask-based web application designed to enhance data security by encrypting sensitive information, detecting breaches, and managing authentication. The project also includes a data processing script that analyzes numerical datasets to identify anomalies. Additionally, we generate fake sample data to simulate potential breach scenarios and test our detection mechanisms.
 
-# Project Description
-Our system acts like a high-tech security guard for company data. Here’s how it works:
-Secure Data Storage: Data is stored in a secure, encrypted database using AES-256 encryption and bcrypt hashing.
-Web Scanning for Leaks: The system constantly scans the internet, including data broker sites and dark web marketplaces, using tools like BeautifulSoup and Selenium.
-Data Comparison Without Exposure: Uses SHA-256 hashing to create unique “digital fingerprints” of the data.
-AI-Powered Anomaly Detection: Machine learning models analyze patterns to distinguish between legitimate data transfers and potential leaks.
-Real-Time Alerts and Response: Instant alerts are sent to the company with details about the leak.
+## Features
 
+- **Flask API** for secure data handling.
+- **PostgreSQL database integration** for secure data storage.
+- **Data breach detection mechanism** through statistical analysis.
+- **CSV Data Processing** script for computing standard deviations in data.
+- **Role-based access control** for different user permissions.
+- **Logging and monitoring** to track data access.
+- **Fake Data Generation** for testing breach detection mechanisms.
 
+## Installation Guide
 
-# Installation Guide
+### Prerequisites
 
-**Prerequisites**
-Before installing, ensure you have the following installed on your system:
-- Operating System: Windows / macOS / Linux
-- Python: Version 3.8+ (Check with python --version)
-- Git: (Check with git --version)
-- Virtual Environment (Optional but recommended): venv or conda
+Ensure you have the following installed:
 
-**Clone the Repository**
-Use Git to clone the project from GitHub:
+- Python 3.8+
+- PostgreSQL
+- pip (Python package manager)
+- Flask and required dependencies
 
-git clone https://github.com/your-username/data-leak-detection.git
-cd data-leak-detection
+### Setup
 
-**Create a Virtual Environment**
+1. Clone this repository:
+   ```sh
+   git clone https://github.com/your-repo/data-breach-detection.git
+   cd data-breach-detection
+   ```
+2. Create a virtual environment and activate it:
+   ```sh
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+   ```
+3. Install required dependencies:
+   ```sh
+   pip install -r requirements.txt
+   ```
+4. Configure environment variables:
+   - Create a `.env` file and add:
+   ```
+   POSTGRES_USER=your_username
+   POSTGRES_PASSWORD=your_password
+   POSTGRES_DB=your_database
+   POSTGRES_HOST=localhost
+   POSTGRES_PORT=5432
+   SECRET_ENCRYPTION_KEY=your_encryption_key
+   ```
 
-python -m venv venv
-venv\Scripts\activate
+## Running the Application
 
-**Install Dependencies**
+1. Start PostgreSQL and ensure your database is set up.
+2. Run database migrations (if applicable):
+   ```sh
+   flask db upgrade
+   ```
+3. Run the Flask application:
+   ```sh
+   python app.py
+   ```
+4. Access the web app at `http://127.0.0.1:5000/`.
 
-pip install -r requirements.txt
+## Data Processing and Fake Data Generation
 
-This will install necessary libraries such as:
-Flask 
-Scikit-learn 
-Pandas 
-OpenCV 
+### Standard Deviation Calculation
 
-# Features
-Proactive Detection: Detects leaks in real-time.
-Privacy-First Approach: Uses secure computation techniques like hashing and homomorphic encryption.
-AI-Powered Accuracy: Reduces false positives with machine learning.
-User-Friendly Interface: Includes a web dashboard for real-time monitoring.
+The script `calculating_sd_normal.py` processes CSV files to compute standard deviations:
 
-# Technologies Used
-Programming Languages: Python
-Frameworks: Flask (for the web dashboard)
-Libraries: BeautifulSoup, Selenium, Scikit-learn, TensorFlow
-Database: PostgreSQL (for secure data storage)
-Encryption: AES-256, bcrypt, SHA-256
-Tools: Git, Docker, GitHub Actions (CI/CD)
+```sh
+python calculating_sd_normal.py
+```
 
+- Reads `brokerage_company_data_1.5h.csv`.
+- Calculates row-wise standard deviations.
+- Saves results in `brokerage_company_data_with_std.csv`.
 
-# Security Considerations
-Data Encryption: All sensitive data is encrypted using AES-256 and bcrypt hashing.
-Secure Comparisons: Data is compared using SHA-256 hashes to ensure privacy.
-Access Control: Role-based access control (RBAC) is implemented for the web dashboard.
-Regular Audits: The system undergoes regular security audits to identify and fix vulnerabilities.
+### Fake Data Generation
 
-# Usage guide
-# File & Directory Structure
-# Configuration & Environment Variables
-# License
+To simulate realistic breach scenarios, we generate fake sample data. The script creates randomized records to test encryption, storage, and breach detection mechanisms effectively.
 
-# Contact
+```sh
+python generate_fake_data.py
+```
+
+- Generates synthetic user and transaction data.
+- Stores the data securely in the PostgreSQL database.
+- Ensures controlled breach simulations for testing.
+
+## Security Considerations
+
+- Store database credentials securely using environment variables.
+- Encrypt all sensitive data before storing it in the database.
+- Implement rate limiting to prevent brute-force attacks.
+- Maintain detailed logs for audit purposes.
+- Regularly test detection mechanisms using generated fake data.
+
+## Future Improvements
+
+- Implement real-time data breach alerts with AI-driven detection.
+- Extend API to support data encryption from the frontend.
+- Improve machine learning-based breach detection.
+- Develop a user-friendly dashboard for security monitoring.
+- Add multi-factor authentication for enhanced security.
+
+## License
+
+MIT License. See `LICENSE` for details.
+
+## Contributors
+
+- Your Name (@your-github)
+- Other Contributors
+
