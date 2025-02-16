@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Dashboard</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cybersecurity Data Vault</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Leak Source</th>
+                    <th>Leak Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="alerts-table">
+                <!-- Alerts will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+    <canvas id="matrixCanvas"></canvas>
+    <script>
+    function fetchAlerts() {
+    fetch('/api/alerts')
+        .then(response => response.json())
+        .then(data => {
+            let tableBody = document.getElementById('alerts-table');
+            let newHTML = '';  // Use a string for better performance
+
+            data.forEach(alert => {
+                newHTML += `
+                    <tr>
+                        <td>${alert.id}</td>
+                        <td>${alert.leak_source}</td>
+                        <td>${alert.leak_time}</td>
+                        <td><a href="/alert/${alert.id}" class="btn">Mark as Under Review</a></td>
+                    </tr>
+                `;
+            });
+
+            tableBody.innerHTML = newHTML;  // Update table in one go
+        })
+        .catch(error => console.error('Error fetching alerts:', error));
+}
+
+// Fetch alerts every 10 seconds
+setInterval(fetchAlerts, 10000);
+fetchAlerts();
+
+    const canvas = document.getElementById("matrixCanvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const letters = "01X101 010010 101X10 1001101";
+    const matrix = letters.split("");
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+
+    const drops = Array.from({ length: columns }).fill(1);
+
+    function drawMatrix() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#0F0";
+        ctx.font = fontSize + "px monospace";
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = matrix[Math.floor(Math.random() * matrix.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+    }
+
+    setInterval(drawMatrix, 50);
+
+    </script>
+</body>
+</html>
