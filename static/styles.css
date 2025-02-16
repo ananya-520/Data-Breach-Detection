@@ -22,7 +22,7 @@ canvas {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-color: white;
+    border-color: rgb(138, 71, 71);
 }
 
 table {
@@ -65,4 +65,32 @@ th {
 h1{
     color: white;
     font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#alert-response {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    display: none; /* Initially hidden */
+}
+.alert-box {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #242426;
+}
+.btn {
+    margin: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+}
+.btn-yes {
+    background-color: green;
+    color: white;
+}
+.btn-no {
+    background-color: red;
+    color: white;
 }

@@ -1,4 +1,5 @@
 import pandas as pd
+import psycopg2
 
 # Load the two CSV files
 file_path_regular = "brokerage_company_data_1.5h.csv"  # Regular data file
@@ -24,7 +25,7 @@ numeric_cols = df_regular.select_dtypes(include=['number']).columns
 spike_columns = (df_spike[numeric_cols] - df_regular[numeric_cols]).abs().mean(axis=0)
 spike_column_name = spike_columns.idxmax()  # Column with the highest average spike
 
-# Identify the company (assuming a "Company" column exists)
+# Identify the company (assuming a "Company Name" column exists)
 if "Company Name" in df_spike.columns:
     company_detected = df_spike.loc[df_spike['Spike_Detected'], 'Company Name'].unique()
 else:
@@ -39,3 +40,48 @@ output_message = f"Company detected with unusual data influx: {', '.join(company
                  f"Most affected time: {spike_column_name}"
 
 print(output_message)
+
+# PostgreSQL Database Credentials
+POSTGRES_USER="postgres"
+POSTGRES_PASSWORD="Amoret@2801#"
+POSTGRES_DB="FamousCompanyXYZ"
+POSTGRES_HOST="localhost"
+POSTGRES_PORT="5432"
+
+# Connect to PostgreSQL and store the output message
+try:
+    conn = psycopg2.connect(
+        dbname = POSTGRES_DB,
+        user = POSTGRES_USER,
+        password= POSTGRES_PASSWORD,
+        host= POSTGRES_HOST,
+        port= POSTGRES_PORT
+    )
+    cur = conn.cursor()
+
+    # Create table if it doesn't exist
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS brokerage_spike_alert (
+            id SERIAL PRIMARY KEY,
+            company_name TEXT,
+            spike_amount FLOAT,
+            affected_time TEXT,
+            alert_message TEXT,
+            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    # Insert the data
+    cur.execute("""
+    INSERT INTO brokerage_spike_alert (company_name, spike_amount, affected_time, alert_message)
+    VALUES (%s, %s, %s, %s)
+""", (', '.join(company_detected), float(average_spike), spike_column_name, output_message))
+
+    # Commit and close
+    conn.commit()
+    cur.close()
+    conn.close()
+    print("Data successfully inserted into PostgreSQL.")
+
+except Exception as e:
+    print("Error inserting into PostgreSQL:", e)

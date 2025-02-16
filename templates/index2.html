@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spike Details</title>
+    <!-- Importing Socket.IO Client Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
+    <link rel="stylesheet" href="./static/styles2.css">
+</head>
+<body>
+    <h1>Spike Details</h1>
+    <!-- <p><strong>Name:</strong> <span id="name">N/A</span></p>
+    <p><strong>Email:</strong> <span id="email">N/A</span></p>
+    <p><strong>Phone:</strong> <span id="phone">N/A</span></p>
+    <p><strong>SSN:</strong> <span id="ssn">N/A</span></p> -->
+
+    <h1>Real-Time Data Spike Alerts</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Ssn</th>
+            </tr>
+        </thead>
+        <tbody id="alerts-list"></tbody>
+    </table>
+
+    <div id="alert-response"></div> <!-- Response section -->
+    <script>
+        var socket = io.connect("http://127.0.0.1:5001");
+    
+        socket.on("update_matches", function(matches) {
+            let alertsList = document.getElementById("alerts-list");
+            let alertResponseDiv = document.getElementById("alert-response");
+            alertsList.innerHTML = "";
+            alertResponseDiv.innerHTML = "";
+            alertResponseDiv.style.display = "block"; // Show response div
+    
+            matches.forEach(match => {
+                let row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${match.name}</td>
+                    <td>${match.email}</td>
+                    <td>${match.phone}</td>
+                    <td>${match.ssn}</td>
+                    <td>${new Date().toLocaleString()}</td> <!-- Timestamp will be generated dynamically -->
+                `;
+                alertsList.appendChild(row);
+    
+                // Create response box
+                let alertBox = document.createElement("div");
+                alertBox.className = "alert-box";
+                alertBox.innerHTML = `
+                    <p><strong>New match detected for ${match.name}!</strong></p>
+                    <p>Do you want to view the details?</p>
+                    <button class="btn btn-yes">Yes</button>
+                    <button class="btn btn-no">No</button>
+                `;
+    
+                // Add event listener to Yes button
+                alertBox.querySelector(".btn-yes").addEventListener("click", function() {
+                    window.location.href = `./index2.html?company=${encodeURIComponent(match.name)}&spike=${encodeURIComponent(match.email)}&time=${encodeURIComponent(match.phone)}`;
+                });
+    
+                // Add event listener to No button (redirect to main page)
+                alertBox.querySelector(".btn-no").addEventListener("click", function() {
+                    window.location.href = `http://127.0.0.1:5001`;  // Redirect to main page
+                });
+    
+                alertResponseDiv.appendChild(alertBox);
+            });
+        });
+    </script>
+</body>
+</html>
