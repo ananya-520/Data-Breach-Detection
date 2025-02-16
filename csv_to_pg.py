@@ -51,7 +51,7 @@ try:
     for index, row in df.iterrows():
         cursor.execute(insert_query, (
             row['Name'], row['Email'], row['Phone Number'], row['Department'], 
-            row['Salary'], row['Address'], row['SSN/National ID'], 
+            row['Salary'], row['Address'], row['SSN'], 
             row['Bank Account'], row['Hashed Password']
         ))
     

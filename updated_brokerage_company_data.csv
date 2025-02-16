@@ -1,0 +1,11 @@
+Company Name,Industry,Data Received,Data Amount (GB),Standard Deviation (1.5-hour freq)
+"Dillon, Fletcher and Brown",Real Estate,Daily,3537.61,0.0
+"Wilcox, Rodriguez and Chambers",Healthcare,Daily,3011.01,0.0
+Andrews Group,Finance,Weekly,4059.32,0.0
+Curry-Elliott,Healthcare,Monthly,2866.23,0.0
+"Morgan, Howard and Turner",Energy,Monthly,4506.31,0.0
+David Group,Healthcare,Weekly,4593.86,0.0
+"Miller, Marsh and Nelson",Real Estate,Annually,3842.04,0.0
+"Scott, Peters and Harris",Healthcare,Weekly,2162.92,0.0
+Carlson-Choi,Telecom,Annually,3185.35,0.0
+Hopkins PLC,Tech,Daily,2137.97,0.0
